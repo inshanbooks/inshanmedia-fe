@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { getImageUrl } from '@/utils/strapiHelpers'
 
-export default function ProductGallery({ cover, images = [] }) {
-  const coverUrl = getImageUrl(cover)
-  const allImages = [
-    ...(coverUrl ? [{ url: coverUrl, alt: 'Cover' }] : []),
-    ...images.map((img) => ({ url: getImageUrl(img), alt: img.alternativeText || '' })),
-  ].filter((img) => img.url)
+export default function ProductGallery({ images = [] }) {
+  const allImages = images
+    .map((img) => ({ url: getImageUrl(img), alt: img.alternativeText || '' }))
+    .filter((img) => img.url)
 
   const [activeIndex, setActiveIndex] = useState(0)
 

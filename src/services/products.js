@@ -4,12 +4,12 @@ export async function getProducts({ page = 1, pageSize = 9, search = '' } = {}) 
   const params = {
     'pagination[page]': page,
     'pagination[pageSize]': pageSize,
-    populate: 'cover,images,kategori',
-    sort: 'publishedAt:desc',
+    populate: '*',
+    sort: 'createdAt:desc',
   }
 
   if (search) {
-    params['filters[title][$containsi]'] = search
+    params['filters[name][$containsi]'] = search
   }
 
   return api.get('/products', { params })
@@ -19,7 +19,7 @@ export async function getProductBySlug(slug) {
   const response = await api.get('/products', {
     params: {
       'filters[slug][$eq]': slug,
-      populate: 'cover,images,kategori',
+      populate: '*',
     },
   })
 

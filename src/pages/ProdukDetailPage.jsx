@@ -7,7 +7,7 @@ import ProductGallery from '@/components/produk/ProductGallery'
 import PriceDisplay from '@/components/produk/PriceDisplay'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import { getImageUrl, extractTextFromBlocks } from '@/utils/strapiHelpers'
+import { extractTextFromBlocks } from '@/utils/strapiHelpers'
 
 export default function ProdukDetailPage() {
   const { slug } = useParams()
@@ -36,16 +36,14 @@ export default function ProdukDetailPage() {
 
   if (!product) return null
 
-  const { title, price, salePrice, cover, images, content, description } = product
-  const imageUrl = getImageUrl(cover)
-  const excerpt = description || extractTextFromBlocks(content)
+  const { name, price, sale_price, images, description } = product
+  const excerpt = extractTextFromBlocks(description)
 
   return (
     <>
       <PageMeta
-        title={title}
+        title={name}
         description={excerpt}
-        image={imageUrl}
       />
       <SectionContainer className="py-12">
         {/* Breadcrumb */}
@@ -54,26 +52,26 @@ export default function ProdukDetailPage() {
           <span className="mx-2">/</span>
           <Link to="/produk" className="hover:text-primary">Produk</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-700 dark:text-gray-300 line-clamp-1">{title}</span>
+          <span className="text-gray-700 dark:text-gray-300 line-clamp-1">{name}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Gallery */}
           <div>
-            <ProductGallery cover={cover} images={images || []} />
+            <ProductGallery images={images || []} />
           </div>
 
           {/* Info */}
           <div>
-            <h1 className="font-heading text-2xl md:text-3xl font-bold mb-4">{title}</h1>
-            <PriceDisplay price={price} salePrice={salePrice} className="mb-6" />
+            <h1 className="font-heading text-2xl md:text-3xl font-bold mb-4">{name}</h1>
+            <PriceDisplay price={price} salePrice={sale_price} className="mb-6" />
 
             {excerpt && (
               <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{excerpt}</p>
             )}
 
             <a
-              href={`https://wa.me/?text=Saya tertarik dengan produk: ${title}`}
+              href={`https://wa.me/?text=Saya tertarik dengan produk: ${name}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary w-full sm:w-auto px-8 py-3 text-base"
@@ -84,10 +82,10 @@ export default function ProdukDetailPage() {
         </div>
 
         {/* Full Description */}
-        {content && (
+        {description && (
           <div className="mt-16">
             <h2 className="font-heading text-xl font-semibold mb-4">Deskripsi</h2>
-            <BlockRenderer blocks={content} />
+            <BlockRenderer blocks={description} />
           </div>
         )}
 
