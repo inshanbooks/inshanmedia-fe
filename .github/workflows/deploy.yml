@@ -53,10 +53,10 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -p 64000 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Ensure deploy directory exists
+      - name: Verify deploy path exists on server
         run: |
           ssh -p 64000 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "mkdir -p ${{ secrets.DEPLOY_PATH }}"
+            "cd ${{ secrets.DEPLOY_PATH }} && echo '✅ Deploy path verified: ${{ secrets.DEPLOY_PATH }}'"
 
       - name: Deploy dist/ via rsync
         run: |
