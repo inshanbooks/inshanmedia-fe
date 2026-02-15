@@ -36,8 +36,8 @@ export default function BeritaDetailPage() {
 
   if (!article) return null
 
-  const { title, publishedAt, cover, kategori, content, author } = article
-  const imageUrl = getImageUrl(cover)
+  const { title, publishedAt, featured_image, categories, content, author } = article
+  const imageUrl = getImageUrl(featured_image)
   const excerpt = extractTextFromBlocks(content)
 
   return (
@@ -59,10 +59,12 @@ export default function BeritaDetailPage() {
             <span className="text-gray-700 dark:text-gray-300 line-clamp-1">{title}</span>
           </nav>
 
-          {/* Category */}
-          {kategori && (
-            <div className="mb-3">
-              <Tag text={kategori.name} slug={kategori.slug} />
+          {/* Categories */}
+          {categories?.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <Tag key={cat.id} text={cat.name} slug={cat.slug} />
+              ))}
             </div>
           )}
 

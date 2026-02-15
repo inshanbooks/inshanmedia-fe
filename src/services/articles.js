@@ -4,7 +4,7 @@ export async function getArticles({ page = 1, pageSize = 5, search = '', kategor
   const params = {
     'pagination[page]': page,
     'pagination[pageSize]': pageSize,
-    populate: 'cover,kategori,author',
+    populate: '*',
     sort: 'publishedAt:desc',
   }
 
@@ -13,7 +13,7 @@ export async function getArticles({ page = 1, pageSize = 5, search = '', kategor
   }
 
   if (kategori) {
-    params['filters[kategori][slug][$eq]'] = kategori
+    params['filters[categories][slug][$eq]'] = kategori
   }
 
   return api.get('/articles', { params })
@@ -23,7 +23,7 @@ export async function getArticleBySlug(slug) {
   const response = await api.get('/articles', {
     params: {
       'filters[slug][$eq]': slug,
-      populate: 'cover,kategori,author',
+      populate: '*',
     },
   })
 

@@ -6,12 +6,11 @@ import Tag from '@/components/ui/Tag'
 export default function ArticleCard({ article }) {
   if (!article) return null
 
-  const { title, slug, publishedAt, cover, kategori, content } = article
+  const { title, slug, publishedAt, featured_image, categories, content } = article
 
-  const imageUrl = getImageUrl(cover)
+  const imageUrl = getImageUrl(featured_image)
   const excerpt = extractTextFromBlocks(content)
-  const categoryName = kategori?.name
-  const categorySlug = kategori?.slug
+  const firstCategory = categories?.[0]
 
   return (
     <article className="card group hover:shadow-lg transition-shadow duration-200">
@@ -27,9 +26,9 @@ export default function ArticleCard({ article }) {
         </Link>
       )}
       <div className="p-5">
-        {categoryName && (
+        {firstCategory && (
           <div className="mb-2">
-            <Tag text={categoryName} slug={categorySlug} />
+            <Tag text={firstCategory.name} slug={firstCategory.slug} />
           </div>
         )}
         <h2 className="font-heading font-semibold text-lg mb-2 line-clamp-2 group-hover:text-primary dark:group-hover:text-primary-300 transition-colors">

@@ -5,8 +5,8 @@ import PriceDisplay from './PriceDisplay'
 export default function ProductCard({ product }) {
   if (!product) return null
 
-  const { title, slug, cover, price, salePrice } = product
-  const imageUrl = getImageUrl(cover)
+  const { name, slug, images, price, sale_price } = product
+  const imageUrl = getImageUrl(images?.[0])
 
   return (
     <article className="card group hover:shadow-lg transition-shadow duration-200">
@@ -15,7 +15,7 @@ export default function ProductCard({ product }) {
           {imageUrl ? (
             <img
               src={imageUrl}
-              alt={title}
+              alt={name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
@@ -29,9 +29,9 @@ export default function ProductCard({ product }) {
       </Link>
       <div className="p-4">
         <h2 className="font-heading font-semibold text-base mb-2 line-clamp-2 group-hover:text-primary dark:group-hover:text-primary-300 transition-colors">
-          <Link to={`/produk/${slug}`}>{title}</Link>
+          <Link to={`/produk/${slug}`}>{name}</Link>
         </h2>
-        <PriceDisplay price={price} salePrice={salePrice} />
+        <PriceDisplay price={price} salePrice={sale_price} />
         <Link
           to={`/produk/${slug}`}
           className="mt-3 block text-center btn-primary text-sm py-1.5"
