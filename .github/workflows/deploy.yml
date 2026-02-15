@@ -36,6 +36,6 @@ jobs:
 
       - name: Deploy dist/ via rsync
         run: |
-          rsync -avz --delete \
+          rsync -avz \
             -e "ssh -p 64000" \
             ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
