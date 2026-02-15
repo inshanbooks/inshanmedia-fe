@@ -62,4 +62,8 @@ jobs:
         run: |
           rsync -avz \
             -e "ssh -p 64000" \
+            --exclude='.htaccess' \
+            --exclude='.well-known' \
+            --exclude='*.shtml' \
+            --exclude='default.html' \
             ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
