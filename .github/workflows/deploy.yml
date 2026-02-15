@@ -11,6 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate required secrets
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          missing=""
+          [ -z "$SSH_HOST" ]       && missing="$missing SSH_HOST"
+          [ -z "$SSH_USER" ]       && missing="$missing SSH_USER"
+          [ -z "$DEPLOY_PATH" ]    && missing="$missing DEPLOY_PATH"
+          [ -z "$SSH_PRIVATE_KEY" ] && missing="$missing SSH_PRIVATE_KEY"
+          if [ -n "$missing" ]; then
+            echo "❌ Missing required secrets:$missing"
+            echo "Aborting to prevent deploying to wrong path."
+            exit 1
+          fi
+          echo "✅ All required secrets are set."
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
